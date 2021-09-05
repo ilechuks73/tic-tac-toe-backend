@@ -1,0 +1,7 @@
+GET http://localhost:3650/testConnection
+
+###
+GET http://localhost:3650/requestRoomID
+
+###
+GET http://localhost:3650/
