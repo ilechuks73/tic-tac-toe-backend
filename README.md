@@ -41,7 +41,7 @@ copy and paste this
 }
 ```
 
-in your newly created ```package.json``` file.
+in your newly created **``` package.json ```** file.
 
 to install dependencies run
 ```
