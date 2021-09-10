@@ -135,6 +135,11 @@ io.on("connection", (socket) => {
     console.log(data)
   });
 
+  socket.on("leaveGame", (data) => {
+    socket.to(data.roomID).emit("leaveGame", data)
+    console.log(data)
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
