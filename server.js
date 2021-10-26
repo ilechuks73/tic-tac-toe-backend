@@ -13,18 +13,16 @@ const io = new Server(server, {
   }
 });
 
-let socket;
-
 const rooms = [
   {
     id: '865ec152',
-    active: true,
+    active: false,
     players: [],
     spectators: []
   },
   {
     id: 'c274a468',
-    active: true,
+    active: false,
     players: [],
     spectators: []
   },
@@ -81,7 +79,8 @@ const rooms = [
 app.use(cors())
 app.use(express.json())
 app.get('/testConnection', (req, res) => {
-  res.send({ msg: "server active" });
+  console.log("request recieved")
+  res.status(200).end()
 });
 
 app.get('/requestRoomID', (req, res) => {
@@ -136,8 +135,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leaveGame", (data) => {
-    socket.to(data.roomID).emit("leaveGame", data)
+    socket.in(data).emit("leaveGame", data)
     console.log(data)
+    console.log('user has left a room')
   });
 
   socket.on("disconnect", () => {
