@@ -3,9 +3,11 @@ const http = require('http');
 const { Server } = require("socket.io")
 const uuidV4 = require('uuid').v4
 const cors = require('cors');
+const dotenv = require('dotenv')
 
 const app = express();
 const server = http.createServer(app);
+dotenv.config()
 
 const io = new Server(server, {
   cors: {
@@ -84,13 +86,21 @@ app.get('/testConnection', (req, res) => {
 });
 
 app.get('/requestRoomID', (req, res) => {
+  let roomID = 'XXXXXX'
   rooms.every((room) => {
     if (room.active === false) {
-      res.status(200).json({ roomID: room.id })
+      roomID = room.id
       return false
     }
     return true
   })
+  if (roomID === 'XXXXXX') {
+    res.status(200).json({error: true, message: 'no available rooms'})
+  }
+  else {
+    res.status(200).json({error: false, roomID: roomID })
+  }
+
 });
 
 io.on("connection", (socket) => {
@@ -145,6 +155,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3650, () => {
-  console.log('listening on *:3650');
+server.listen(process.env.PORT, () => {
+  console.log(`listening on *: ${process.env.PORT}`);
 });
