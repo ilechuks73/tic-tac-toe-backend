@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io")
-const uuidV4 = require('uuid').v4
 const cors = require('cors');
 const dotenv = require('dotenv')
 
