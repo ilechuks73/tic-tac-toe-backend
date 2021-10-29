@@ -94,17 +94,17 @@ app.get('/requestRoomID', (req, res) => {
     return true
   })
   if (roomID === 'XXXXXX') {
-    res.status(200).json({error: true, message: 'no available rooms'})
+    res.status(200).json({ error: true, message: 'no available rooms' })
   }
   else {
-    res.status(200).json({error: false, roomID: roomID })
+    res.status(200).json({ error: false, roomID: roomID })
   }
 
 });
 
 io.on("connection", (socket) => {
   socket.emit("connectionSuccess", socket.id)
-
+  console.log(socket.id)
   socket.on("createRoom", (data) => {
     rooms.forEach(room => {
       if (room.id === data.roomID) {
@@ -124,13 +124,16 @@ io.on("connection", (socket) => {
         if (room.players.length >= 2) {
           socket.emit("roomFull")
         }
-        room.players.push(data.playerName)
-        _room = room
-        io.to(socket.id).emit("joinedRoom", room.players[0]);
+        else {
+          room.players.push(data.playerName)
+          _room = room
+          io.to(socket.id).emit("joinedRoom", room.players[0]);
+        }
       }
     })
     socket.join(data.roomID);
     console.log("player joined room " + data.roomID);
+    socket.to(data.roomID).emit("message", { sender: "server", content: "someone just joined this room" })
     socket.to(data.roomID).emit("joinRoom", data.playerName)
   });
 
@@ -148,6 +151,10 @@ io.on("connection", (socket) => {
     console.log(data)
     console.log('user has left a room')
   });
+
+  socket.on("message", (data) => {
+    socket.to(data.roomID).emit('message', data)
+  })
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
