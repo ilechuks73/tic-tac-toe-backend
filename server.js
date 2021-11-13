@@ -77,14 +77,25 @@ const rooms = [
   },
 ]
 
+function resetRoom(roomID) {
+  rooms.map((room, index) => {
+    if (room.id === roomID) {
+      room.active = false,
+        room.players = [],
+        room.spectators = []
+    }
+  })
+}
+
 app.use(cors())
 app.use(express.json())
 app.get('/testConnection', (req, res) => {
-  console.log("request recieved")
+  console.log("request at /testConnection")
   res.status(200).end()
 });
 
-app.get('/requestRoomID', (req, res) => {
+app.get('/createRoom', (req, res) => {
+  console.log("request at /createRoom")
   let roomID = 'XXXXXX'
   rooms.every((room) => {
     if (room.active === false) {
@@ -101,6 +112,10 @@ app.get('/requestRoomID', (req, res) => {
   }
 
 });
+
+app.get("/joinRoom", (req,res)=>{
+  
+})
 
 io.on("connection", (socket) => {
   socket.emit("connectionSuccess", socket.id)
@@ -148,6 +163,7 @@ io.on("connection", (socket) => {
 
   socket.on("leaveGame", (data) => {
     socket.in(data).emit("leaveGame", data)
+    resetRoom(data)
     console.log(data)
     console.log('user has left a room')
   });
@@ -156,7 +172,8 @@ io.on("connection", (socket) => {
     socket.to(data.roomID).emit('message', data)
   })
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (params) => {
+    console.log(params)
     console.log("user disconnected");
   });
 });
