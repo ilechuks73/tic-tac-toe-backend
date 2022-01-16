@@ -2,9 +2,10 @@
   "name": "test1",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "npx nodemon"
   },
   "keywords": [],
   "author": "",
