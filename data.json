@@ -1,0 +1,69 @@
+[
+  {
+    "id": "865ec152",
+    "active": true,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "c274a468",
+    "active": true,
+    "players": [
+      "kkk"
+    ],
+    "spectators": []
+  },
+  {
+    "id": "b4ab969f",
+    "active": true,
+    "players": [
+      "eee"
+    ],
+    "spectators": []
+  },
+  {
+    "id": "65e717fc",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "458c53de",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "3f0f6400",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "11e1ba31",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "74d2d67f",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "bd11399b",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "7252f631",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  "test item",
+  "test item",
+  "test item"
+]
