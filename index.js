@@ -5,11 +5,79 @@ const cors = require('cors');
 const dotenv = require('dotenv')
 const fileSystem = require('fs')
 
-const rooms = require('./room')
 
 const app = express();
 const server = http.createServer(app);
 dotenv.config()
+
+const rooms = [
+  {
+    "id": "865ec152",
+    "active": true,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "c274a468",
+    "active": true,
+    "players": [
+      "kkk"
+    ],
+    "spectators": []
+  },
+  {
+    "id": "b4ab969f",
+    "active": true,
+    "players": [
+      "eee"
+    ],
+    "spectators": []
+  },
+  {
+    "id": "65e717fc",
+    "active": true,
+    "players": [
+      "rtrt"
+    ],
+    "spectators": []
+  },
+  {
+    "id": "458c53de",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "3f0f6400",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "11e1ba31",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "74d2d67f",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "bd11399b",
+    "active": false,
+    "players": [],
+    "spectators": []
+  },
+  {
+    "id": "7252f631",
+    "active": false,
+    "players": [],
+    "spectators": []
+  }
+]
 
 const io = new Server(server, {
   cors: {
@@ -26,7 +94,17 @@ app.get('/testConnection', (req, res) => {
 
 app.post('/createRoom', (req, res) => {
   console.log("request at /createRoom")
-  const roomID = rooms.createRoom(req.body)
+  let roomID = 'XXXXXX'
+  rooms.every((room) => {
+    if (room.active === false) {
+      roomID = room.id
+      room.active = true
+      console.log("player created room " + roomID);
+      room.players.push(req.body.playerName)
+      return false
+    }
+    return true
+  })
   if (roomID === 'XXXXXX') {
     res.status(200).json({ error: true, message: 'no available rooms' })
   }
@@ -36,23 +114,23 @@ app.post('/createRoom', (req, res) => {
 
 });
 
-app.get("/joinRoom", (req, res) => {
+// app.get("/joinRoom", (req, res) => {
 
-})
+// })
 
 io.on("connection", (socket) => {
   socket.emit("connectionSuccess", socket.id)
   console.log(socket.id)
-  // socket.on("createRoom", (data) => {
-  //   rooms.forEach(room => {
-  //     if (room.id === data.roomID) {
-  //       room.active = true
-  //       room.players.push(data.playerName)
-  //     }
-  //   })
-  //   socket.join(data.roomID);
-  //   console.log("player created room " + data.roomID);
-  // })
+  socket.on("createRoom", (data) => {
+    rooms.forEach(room => {
+      if (room.id === data.roomID) {
+        room.active = true
+        room.players.push(data.playerName)
+      }
+    })
+    socket.join(data.roomID);
+    console.log("player created room " + data.roomID);
+  })
 
   socket.on("joinRoom", (data) => {
     console.log(data.roomID)

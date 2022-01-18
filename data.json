@@ -23,8 +23,10 @@
   },
   {
     "id": "65e717fc",
-    "active": false,
-    "players": [],
+    "active": true,
+    "players": [
+      "rtrt"
+    ],
     "spectators": []
   },
   {
@@ -62,8 +64,5 @@
     "active": false,
     "players": [],
     "spectators": []
-  },
-  "test item",
-  "test item",
-  "test item"
+  }
 ]
